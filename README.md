@@ -42,6 +42,18 @@ BOOKING_FROM_EMAIL=MOJO Website <onboarding@resend.dev>
 
 The `/api/booking` endpoint validates and sanitizes fields, uses a honeypot and timing check, rejects obvious spam, and sends through Resend when configured. Local preview mode returns a successful test response without sending email.
 
+## Cloudflare deployment
+
+Connect `runningfoo/mojo-music` to a Worker named `mojo-music` with these Workers Builds settings:
+
+- Production branch: `main`
+- Build command: `npm run build`
+- Deploy command: `npx wrangler deploy`
+- Non-production deploy command: `npx wrangler versions upload`
+- Root directory: `/`
+
+Add `RESEND_API_KEY`, `BOOKING_EMAIL`, and `BOOKING_FROM_EMAIL` under the Worker's runtime **Variables and Secrets** settings. Store all three as encrypted secrets and never commit their values. Attach the production hostname under **Domains & Routes** as a Custom Domain.
+
 ## Quality checks
 
 ```bash

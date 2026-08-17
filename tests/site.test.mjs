@@ -37,3 +37,11 @@ test("booking form and API expose the required integration points", async () => 
   assert.match(worker, /RESEND_API_KEY/);
   assert.match(worker, /BOOKING_EMAIL/);
 });
+
+test("Cloudflare Worker deployment is configured for the booking API and static site", async () => {
+  const config = JSON.parse(await readFile(new URL("wrangler.jsonc", root), "utf8"));
+  assert.equal(config.name, "mojo-music");
+  assert.equal(config.main, "./worker/index.ts");
+  assert.equal(config.assets.binding, "ASSETS");
+  assert.equal(config.assets.not_found_handling, "single-page-application");
+});
