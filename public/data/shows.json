@@ -1,0 +1,62 @@
+[
+  {
+    "date": "2026-09-05",
+    "venue": "Downtown House of Pizza",
+    "city": "Fort Myers",
+    "state": "FL",
+    "time": "7:00 PM",
+    "eventName": "Saturday Night Live Music",
+    "type": "public",
+    "detailsUrl": ""
+  },
+  {
+    "date": "2026-09-18",
+    "venue": "Sidney & Berne Davis Art Center",
+    "city": "Fort Myers",
+    "state": "FL",
+    "time": "6:30 PM",
+    "eventName": "Music Walk",
+    "type": "public",
+    "detailsUrl": ""
+  },
+  {
+    "date": "2026-09-26",
+    "venue": "Private Residence",
+    "city": "Naples",
+    "state": "FL",
+    "time": "6:00 PM",
+    "eventName": "Private Celebration",
+    "type": "private",
+    "detailsUrl": ""
+  },
+  {
+    "date": "2026-10-03",
+    "venue": "Bayfront Place",
+    "city": "Naples",
+    "state": "FL",
+    "time": "7:00 PM",
+    "eventName": "Waterfront Sessions",
+    "type": "public",
+    "detailsUrl": ""
+  },
+  {
+    "date": "2026-10-17",
+    "venue": "Downtown House of Pizza",
+    "city": "Fort Myers",
+    "state": "FL",
+    "time": "7:00 PM",
+    "eventName": "Saturday Night Live Music",
+    "type": "public",
+    "detailsUrl": ""
+  },
+  {
+    "date": "2026-10-24",
+    "venue": "Private Venue",
+    "city": "Bonita Springs",
+    "state": "FL",
+    "time": "5:30 PM",
+    "eventName": "Wedding Reception",
+    "type": "private",
+    "detailsUrl": ""
+  }
+]

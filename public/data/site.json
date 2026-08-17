@@ -1,0 +1,12 @@
+{
+  "name": "MOJO",
+  "tagline": "Two Voices. One Vibe. All Heart.",
+  "description": "Live acoustic and electric music for venues, private events, country clubs, festivals, and celebrations across Southwest Florida.",
+  "bookingEmail": "booking@example.com",
+  "location": "Southwest Florida",
+  "social": {
+    "instagram": "https://www.instagram.com/",
+    "facebook": "https://www.facebook.com/",
+    "youtube": "https://www.youtube.com/"
+  }
+}

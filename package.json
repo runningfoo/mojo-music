@@ -1,0 +1,23 @@
+{
+  "name": "mojo-music",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "scripts": {
+    "prepare:images": "node scripts/prepare-images.mjs",
+    "dev": "vite --host 127.0.0.1",
+    "build": "vite build",
+    "preview": "vite preview --host 127.0.0.1",
+    "test": "node --test tests/site.test.mjs"
+  },
+  "devDependencies": {
+    "@cloudflare/vite-plugin": "1.37.1",
+    "@openai/sites-vite-plugin": "0.1.0",
+    "sharp": "0.34.5",
+    "vite": "8.0.13",
+    "wrangler": "4.92.0"
+  }
+}

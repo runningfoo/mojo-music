@@ -1,0 +1,11 @@
+[
+  {"src":"/assets/hero.webp","avif":"/assets/hero.avif","alt":"MOJO performing with guitar and vocals at an outdoor venue","category":"live","size":"wide"},
+  {"src":"/assets/portrait-duo.webp","avif":"/assets/portrait-duo.avif","alt":"MOJO portrait outdoors at sunset","category":"portraits","size":"tall"},
+  {"src":"/assets/duo-indoor.webp","avif":"/assets/duo-indoor.avif","alt":"The two MOJO musicians seated together indoors","category":"behind","size":"square"},
+  {"src":"/assets/vocalist.webp","avif":"/assets/vocalist.avif","alt":"MOJO vocalist performing with a microphone","category":"live","size":"tall"},
+  {"src":"/assets/guitarist.webp","avif":"/assets/guitarist.avif","alt":"MOJO guitarist performing live","category":"live","size":"square"},
+  {"src":"/assets/sunset.webp","avif":"/assets/sunset.avif","alt":"MOJO performing during a colorful sunset","category":"live","size":"wide"},
+  {"src":"/assets/duo-smile.webp","avif":"/assets/duo-smile.avif","alt":"The MOJO duo smiling together between songs","category":"behind","size":"square"},
+  {"src":"/assets/live-laugh.webp","avif":"/assets/live-laugh.avif","alt":"MOJO sharing a candid laugh during a performance","category":"behind","size":"wide"},
+  {"src":"/assets/live-full.webp","avif":"/assets/live-full.avif","alt":"Wide view of a live MOJO performance","category":"live","size":"wide"}
+]
