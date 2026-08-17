@@ -61,4 +61,4 @@ npm test
 npm run build
 ```
 
-The final production URL should replace the placeholder `https://mojo-music.com` canonical and sitemap URLs if a different domain is used. Social and booking placeholder values should also be replaced before launch.
+The production canonical and sitemap URLs use `https://mojomusic.org`. Social and booking placeholder values should also be replaced before launch.
