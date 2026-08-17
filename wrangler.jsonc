@@ -7,6 +7,12 @@
     "binding": "ASSETS",
     "not_found_handling": "single-page-application"
   },
+  "send_email": [
+    {
+      "name": "EMAIL",
+      "destination_address": "mojoduomusic@gmail.com"
+    }
+  ],
   "observability": {
     "enabled": true
   }

@@ -32,15 +32,7 @@ Add a YouTube video ID to `youtubeId` in `public/data/videos.json`. The page loa
 
 ## Booking email
 
-Copy `.env.example` to `.env` for local configuration or add the same variables to the deployment environment:
-
-```text
-RESEND_API_KEY=
-BOOKING_EMAIL=
-BOOKING_FROM_EMAIL=MOJO Website <onboarding@resend.dev>
-```
-
-The `/api/booking` endpoint validates and sanitizes fields, uses a honeypot and timing check, rejects obvious spam, and sends through Resend when configured. Local preview mode returns a successful test response without sending email.
+The `/api/booking` endpoint validates and sanitizes fields, uses a honeypot and timing check, rejects obvious spam, and sends through Cloudflare Email Service. The `EMAIL` binding is restricted to the verified `mojoduomusic@gmail.com` destination, and messages come from `MOJO Website <booking@mojomusic.org>`. No API key or hosted secret is required. Local preview mode returns a successful test response without sending email.
 
 ## Cloudflare deployment
 
@@ -52,7 +44,7 @@ Connect `runningfoo/mojo-music` to a Worker named `mojo-music` with these Worker
 - Non-production deploy command: `npx wrangler versions upload`
 - Root directory: `/`
 
-Add `RESEND_API_KEY`, `BOOKING_EMAIL`, and `BOOKING_FROM_EMAIL` under the Worker's runtime **Variables and Secrets** settings. Store all three as encrypted secrets and never commit their values. Attach the production hostname under **Domains & Routes** as a Custom Domain.
+Onboard `mojomusic.org` for Cloudflare Email Sending, verify `mojoduomusic@gmail.com` as an Email Routing destination, and attach the production hostname under **Domains & Routes** as a Custom Domain.
 
 ## Quality checks
 

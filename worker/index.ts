@@ -1,8 +1,17 @@
+interface BookingEmailBinding {
+  send(message: {
+    to?: string | string[];
+    from: string;
+    replyTo?: string;
+    subject: string;
+    html: string;
+    text: string;
+  }): Promise<{ messageId: string }>;
+}
+
 interface Env {
   ASSETS: Fetcher;
-  RESEND_API_KEY?: string;
-  BOOKING_EMAIL?: string;
-  BOOKING_FROM_EMAIL?: string;
+  EMAIL?: BookingEmailBinding;
 }
 
 type Booking = Record<string, string>;
@@ -66,7 +75,7 @@ const bookingHandler = async (request: Request, env: Env) => {
 
   const url = new URL(request.url);
   const isLocal = ["localhost", "127.0.0.1", "::1"].includes(url.hostname);
-  if (!env.RESEND_API_KEY || !env.BOOKING_EMAIL) {
+  if (!env.EMAIL) {
     if (isLocal) return json({ ok: true, delivery: "preview" });
     return json({ error: "Online booking is being configured. Please try again soon." }, 503);
   }
@@ -78,18 +87,18 @@ const bookingHandler = async (request: Request, env: Env) => {
     ["Message", booking.message],
   ];
   const html = `<h1>New MOJO booking inquiry</h1>${rows.map(([label, value]) => `<p><strong>${label}:</strong><br>${escapeHtml(value).replace(/\n/g, "<br>")}</p>`).join("")}`;
-  const response = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: { "Authorization": `Bearer ${env.RESEND_API_KEY}`, "Content-Type": "application/json" },
-    body: JSON.stringify({
-      from: env.BOOKING_FROM_EMAIL || "MOJO Website <onboarding@resend.dev>",
-      to: [env.BOOKING_EMAIL],
-      reply_to: booking.email,
+  const text = `New MOJO booking inquiry\n\n${rows.map(([label, value]) => `${label}: ${value}`).join("\n\n")}`;
+  try {
+    await env.EMAIL.send({
+      from: "MOJO Website <booking@mojomusic.org>",
+      replyTo: booking.email,
       subject: `MOJO booking inquiry — ${booking.eventType}`,
       html,
-    }),
-  });
-  if (!response.ok) return json({ error: "We couldn't send your inquiry just now. Please try again." }, 502);
+      text,
+    });
+  } catch {
+    return json({ error: "We couldn't send your inquiry just now. Please try again." }, 502);
+  }
   return json({ ok: true });
 };
 

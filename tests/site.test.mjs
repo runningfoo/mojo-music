@@ -34,8 +34,9 @@ test("booking form and API expose the required integration points", async () => 
   ]);
   for (const field of ["name", "email", "phone", "eventType", "eventDate", "location", "audience", "message"]) assert.match(book, new RegExp(`name="${field}"`));
   assert.match(worker, /\/api\/booking/);
-  assert.match(worker, /RESEND_API_KEY/);
-  assert.match(worker, /BOOKING_EMAIL/);
+  assert.match(worker, /env\.EMAIL\.send/);
+  assert.match(worker, /booking@mojomusic\.org/);
+  assert.doesNotMatch(worker, /RESEND_API_KEY|api\.resend\.com/);
 });
 
 test("Cloudflare Worker deployment is configured for the booking API and static site", async () => {
@@ -44,4 +45,5 @@ test("Cloudflare Worker deployment is configured for the booking API and static 
   assert.equal(config.main, "./worker/index.ts");
   assert.equal(config.assets.binding, "ASSETS");
   assert.equal(config.assets.not_found_handling, "single-page-application");
+  assert.deepEqual(config.send_email, [{ name: "EMAIL", destination_address: "mojoduomusic@gmail.com" }]);
 });
