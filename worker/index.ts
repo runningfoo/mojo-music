@@ -1,6 +1,6 @@
 interface BookingEmailBinding {
   send(message: {
-    to?: string | string[];
+    to: string | string[];
     from: string;
     replyTo?: string;
     subject: string;
@@ -90,13 +90,19 @@ const bookingHandler = async (request: Request, env: Env) => {
   const text = `New MOJO booking inquiry\n\n${rows.map(([label, value]) => `${label}: ${value}`).join("\n\n")}`;
   try {
     await env.EMAIL.send({
+      to: "mojoduomusic@gmail.com",
       from: "MOJO Website <booking@mojomusic.org>",
       replyTo: booking.email,
       subject: `MOJO booking inquiry — ${booking.eventType}`,
       html,
       text,
     });
-  } catch {
+  } catch (error) {
+    const failure = error as { code?: unknown; message?: unknown };
+    console.error("Booking email delivery failed", {
+      code: String(failure.code ?? "unknown"),
+      message: String(failure.message ?? "Unknown error"),
+    });
     return json({ error: "We couldn't send your inquiry just now. Please try again." }, 502);
   }
   return json({ ok: true });
