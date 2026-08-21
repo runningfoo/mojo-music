@@ -1,3 +1,56 @@
+import { SOCIAL_LINKS } from "./socials.js";
+
+
+const renderSocialGroup = (container) => {
+  const platforms =
+    container.dataset.socialPlatforms
+      ?.split(",")
+      .map((value) => value.trim())
+      .filter(Boolean) ||
+    Object.keys(SOCIAL_LINKS);
+
+  const links = platforms
+    .map((platform) => SOCIAL_LINKS[platform])
+    .filter(Boolean);
+
+  container.replaceChildren(
+    ...links.map((social) => {
+      const link =
+        document.createElement("a");
+
+      link.href = social.url;
+      link.textContent =
+        social.shortLabel;
+      link.setAttribute(
+        "aria-label",
+        social.label
+      );
+
+      return link;
+    })
+  );
+};
+
+
+document
+  .querySelectorAll("[data-social-links]")
+  .forEach(renderSocialGroup);
+
+
+document
+  .querySelectorAll("[data-social-link]")
+  .forEach((link) => {
+    const social =
+      SOCIAL_LINKS[
+        link.dataset.socialLink
+      ];
+
+    if (!social) {
+      return;
+    }
+
+    link.href = social.url;
+  });
 const menuButton = document.querySelector(".menu-toggle");
 const header = document.querySelector("[data-header]");
 
