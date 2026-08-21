@@ -1,0 +1,531 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>MOJO Admin</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap"
+    rel="stylesheet"
+  >
+
+  <link rel="stylesheet" href="/src/admin.css">
+  <script type="module" src="/src/admin.js"></script>
+</head>
+
+<body>
+  <header class="admin-header">
+    <div>
+      <span class="admin-mark">MJ</span>
+      <strong>MOJO Admin</strong>
+    </div>
+
+    <a href="/" target="_blank" rel="noopener">
+      View website ↗
+    </a>
+  </header>
+
+  <main class="admin-shell">
+
+    <section class="admin-intro">
+      <p class="admin-kicker">Content management</p>
+      <h1>MOJO Admin</h1>
+      <p>Manage shows, gallery images, videos, and music.</p>
+    </section>
+
+    <nav class="admin-tabs" aria-label="Admin sections">
+      <button type="button" class="active" data-admin-tab="shows">Shows</button>
+      <button type="button" data-admin-tab="gallery">Gallery</button>
+      <button type="button" data-admin-tab="videos">Videos</button>
+      <button type="button" data-admin-tab="music">Music</button>
+    </nav>
+
+    <!-- =====================================================
+         SHOWS
+    ====================================================== -->
+
+    <section
+      class="admin-panel"
+      data-admin-panel="shows"
+    >
+      <div class="admin-panel-heading">
+        <div>
+          <p class="admin-kicker">Calendar</p>
+          <h2>Shows</h2>
+        </div>
+
+        <div class="admin-panel-actions">
+          <span data-show-count></span>
+
+          <button
+            type="button"
+            class="admin-add-button"
+            data-add-show
+          >
+            + Add Show
+          </button>
+        </div>
+      </div>
+
+      <form
+        class="admin-show-form"
+        data-show-form
+        hidden
+      >
+        <div class="admin-form-grid">
+
+          <label>
+            <span>Date</span>
+            <input
+              type="date"
+              name="date"
+              required
+            >
+          </label>
+
+          <label>
+            <span>Event Name</span>
+            <input
+              type="text"
+              name="eventName"
+              placeholder="Saturday Night Live Music"
+              required
+            >
+          </label>
+
+          <label>
+            <span>Venue</span>
+            <input
+              type="text"
+              name="venue"
+              placeholder="Downtown House of Pizza"
+              required
+            >
+          </label>
+
+          <label>
+            <span>City</span>
+            <input
+              type="text"
+              name="city"
+              required
+            >
+          </label>
+
+          <label>
+            <span>State</span>
+            <input
+              type="text"
+              name="state"
+              value="FL"
+              maxlength="2"
+            >
+          </label>
+
+          <label>
+            <span>Time</span>
+            <input
+              type="text"
+              name="time"
+              placeholder="7:00 PM"
+              required
+            >
+          </label>
+
+          <label>
+            <span>Type</span>
+            <select name="type">
+              <option value="public">Public</option>
+              <option value="private">Private</option>
+            </select>
+          </label>
+
+          <label class="admin-form-wide">
+            <span>Details URL</span>
+            <input
+              type="url"
+              name="detailsUrl"
+              placeholder="https://..."
+            >
+          </label>
+
+        </div>
+
+        <p
+          class="admin-form-message"
+          data-form-message
+        ></p>
+
+        <div class="admin-form-actions">
+          <button
+            type="button"
+            data-cancel-show
+          >
+            Cancel
+          </button>
+
+          <button
+            type="submit"
+            class="primary"
+          >
+            Save Show
+          </button>
+        </div>
+      </form>
+
+      <p
+        class="admin-status"
+        data-admin-status
+      >
+        Loading shows…
+      </p>
+
+      <div
+        class="admin-show-list"
+        data-admin-shows
+      ></div>
+    </section>
+
+
+    <!-- =====================================================
+         GALLERY
+    ====================================================== -->
+
+    <section
+      class="admin-panel"
+      data-admin-panel="gallery"
+      hidden
+    >
+      <div class="admin-panel-heading">
+        <div>
+          <p class="admin-kicker">Media</p>
+          <h2>Gallery</h2>
+        </div>
+
+        <div class="admin-panel-actions">
+          <span data-gallery-count></span>
+
+          <button
+            type="button"
+            class="admin-add-button"
+            data-add-gallery
+          >
+            + Upload Image
+          </button>
+        </div>
+      </div>
+
+      <form
+        class="admin-show-form"
+        data-gallery-form
+        hidden
+      >
+        <div class="admin-form-grid">
+
+          <label class="admin-form-wide">
+            <span>Image</span>
+            <input
+              type="file"
+              name="file"
+              accept="image/jpeg,image/png,image/webp,image/avif"
+              required
+            >
+          </label>
+
+          <label class="admin-form-wide">
+            <span>Alt Text</span>
+            <input
+              type="text"
+              name="alt"
+              placeholder="Describe what is visible in the photo"
+              required
+            >
+          </label>
+
+          <label>
+            <span>Category</span>
+            <select name="category">
+              <option value="live">Live</option>
+              <option value="portraits">Portraits</option>
+              <option value="behind">Behind the Scenes</option>
+            </select>
+          </label>
+
+          <label>
+            <span>Display Size</span>
+            <select name="size">
+              <option value="square">Square</option>
+              <option value="wide">Wide</option>
+              <option value="tall">Tall</option>
+            </select>
+          </label>
+
+        </div>
+
+        <p
+          class="admin-form-message"
+          data-gallery-message
+        ></p>
+
+        <div class="admin-form-actions">
+          <button
+            type="button"
+            data-cancel-gallery
+          >
+            Cancel
+          </button>
+
+          <button
+            type="submit"
+            class="primary"
+          >
+            Upload Image
+          </button>
+        </div>
+      </form>
+
+      <p
+        class="admin-status"
+        data-gallery-status
+      >
+        Loading gallery…
+      </p>
+
+      <div
+        class="admin-gallery-grid"
+        data-admin-gallery
+      ></div>
+    </section>
+
+    <!-- =====================================================
+     VIDEOS
+====================================================== -->
+
+<section
+  class="admin-panel"
+  data-admin-panel="videos"
+  hidden
+>
+  <div class="admin-panel-heading">
+    <div>
+      <p class="admin-kicker">Media</p>
+      <h2>Videos</h2>
+    </div>
+
+    <div class="admin-panel-actions">
+      <span data-video-count></span>
+
+      <button
+        type="button"
+        class="admin-add-button"
+        data-add-video
+      >
+        + Add Video
+      </button>
+    </div>
+  </div>
+
+  <form
+    class="admin-show-form"
+    data-video-form
+    hidden
+  >
+    <div class="admin-form-grid">
+
+      <label class="admin-form-wide">
+        <span>Title</span>
+        <input
+          type="text"
+          name="title"
+          placeholder="MOJO — Live at Music Walk"
+          required
+        >
+      </label>
+
+      <label class="admin-form-wide">
+        <span>YouTube URL or Video ID</span>
+        <input
+          type="text"
+          name="youtube"
+          placeholder="https://www.youtube.com/watch?v=..."
+        >
+      </label>
+
+      <label>
+        <span>Category</span>
+        <input
+          type="text"
+          name="category"
+          placeholder="Live Performance"
+        >
+      </label>
+
+      <label>
+        <span>Custom Thumbnail URL</span>
+        <input
+          type="text"
+          name="thumbnail"
+          placeholder="/assets/photo.webp or https://..."
+        >
+      </label>
+
+      <label class="admin-form-wide admin-checkbox-label">
+        <input
+          type="checkbox"
+          name="featured"
+        >
+        <span>Featured video</span>
+      </label>
+
+    </div>
+
+    <p
+      class="admin-form-message"
+      data-video-message
+    ></p>
+
+    <div class="admin-form-actions">
+      <button
+        type="button"
+        data-cancel-video
+      >
+        Cancel
+      </button>
+
+      <button
+        type="submit"
+        class="primary"
+      >
+        Save Video
+      </button>
+    </div>
+  </form>
+
+  <p
+    class="admin-status"
+    data-video-status
+  >
+    Loading videos…
+  </p>
+
+  <div
+    class="admin-video-list"
+    data-admin-videos
+  ></div>
+</section>
+<!-- =====================================================
+     MUSIC
+====================================================== -->
+
+<section
+  class="admin-panel"
+  data-admin-panel="music"
+  hidden
+>
+  <div class="admin-panel-heading">
+    <div>
+      <p class="admin-kicker">Audio</p>
+      <h2>Music</h2>
+    </div>
+
+    <div class="admin-panel-actions">
+      <span data-music-count></span>
+
+      <button
+        type="button"
+        class="admin-add-button"
+        data-add-music
+      >
+        + Upload Track
+      </button>
+    </div>
+  </div>
+
+  <form
+    class="admin-show-form"
+    data-music-form
+    hidden
+  >
+    <div class="admin-form-grid">
+
+      <label class="admin-form-wide">
+        <span>Audio File</span>
+        <input
+          type="file"
+          name="file"
+          accept="audio/mpeg,audio/mp4,audio/x-m4a,audio/wav,audio/x-wav"
+          required
+        >
+      </label>
+
+      <label class="admin-form-wide">
+        <span>Track Title</span>
+        <input
+          type="text"
+          name="title"
+          placeholder="Song title"
+          required
+        >
+      </label>
+
+      <label>
+        <span>Credit</span>
+        <input
+          type="text"
+          name="credit"
+          placeholder="MOJO"
+        >
+      </label>
+
+      <label>
+        <span>Duration</span>
+        <input
+          type="text"
+          name="duration"
+          placeholder="3:42"
+        >
+      </label>
+
+    </div>
+
+    <p
+      class="admin-form-message"
+      data-music-message
+    ></p>
+
+    <div class="admin-form-actions">
+      <button
+        type="button"
+        data-cancel-music
+      >
+        Cancel
+      </button>
+
+      <button
+        type="submit"
+        class="primary"
+      >
+        Upload Track
+      </button>
+    </div>
+  </form>
+
+  <p
+    class="admin-status"
+    data-music-status
+  >
+    Loading music…
+  </p>
+
+  <div
+    class="admin-music-list"
+    data-admin-music
+  ></div>
+</section>
+  </main>
+</body>
+</html>

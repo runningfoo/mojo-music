@@ -1,6 +1,6 @@
 # MOJO Music
 
-A static-first, six-page website for the Southwest Florida live music duo MOJO. The site uses semantic HTML, modern CSS, vanilla JavaScript, editable JSON content, and one small Cloudflare Worker endpoint for booking inquiries.
+A website for the Southwest Florida live music duo MOJO. The site uses semantic HTML, modern CSS, vanilla JavaScript, Cloudflare Workers, D1 for structured content, R2 for uploaded media, and Cloudflare Access for the protected admin CMS.
 
 ## Run locally
 
@@ -14,22 +14,33 @@ npm run dev
 
 Visit `http://127.0.0.1:5173/`.
 
-## Content updates
+## Content management
 
-Frequently edited content lives in `public/data/`:
+Frequently updated content is managed through the protected admin interface at `/admin/`.
 
-- `site.json` — brand, booking, and social links
-- `shows.json` — event dates and venue details
-- `music.json` — track listings and future audio URLs
-- `videos.json` — YouTube IDs, categories, and thumbnails
-- `gallery.json` — curated gallery images and alt text
+Content storage:
 
-Member names and finalized bios should be added in `about/index.html` when supplied. The current role-based profiles avoid inventing personal details.
+- Shows — Cloudflare D1
+- Gallery metadata — Cloudflare D1
+- Gallery uploads — Cloudflare R2
+- Videos — Cloudflare D1 with YouTube hosting
+- Music metadata — Cloudflare D1
+- Audio uploads — Cloudflare R2
+
+The public site reads content through Worker API endpoints:
+
+- `/api/shows`
+- `/api/gallery`
+- `/api/videos`
+- `/api/music`
+
+Administrative create, edit, delete, and upload operations use protected `/api/admin/*` endpoints. Production access to `/admin/*` and `/api/admin/*` is controlled by Cloudflare Access.
 
 ## Video and audio
 
-Add a YouTube video ID to `youtubeId` in `public/data/videos.json`. The page loads only the thumbnail until a visitor presses play. Add an audio file URL to `audioUrl` in `public/data/music.json` to enable playback; current tracks are clearly marked sample listings.
+Videos are managed through the Videos section of the admin interface. Standard YouTube URLs, YouTube Shorts URLs, shortened `youtu.be` URLs, and YouTube video IDs are supported.
 
+Audio files are uploaded through the Music section of the admin interface and stored in Cloudflare R2. MP3, M4A, and WAV files are supported. Audio delivery supports HTTP byte-range requests for browser playback and seeking.
 ## Booking email
 
 The `/api/booking` endpoint validates and sanitizes fields, uses a honeypot and timing check, rejects obvious spam, and sends through Cloudflare Email Service. The `EMAIL` binding is restricted to the verified `mojoduomusic@gmail.com` destination, and messages come from `MOJO Website <booking@mojomusic.org>`. No API key or hosted secret is required. Local preview mode returns a successful test response without sending email.

@@ -15,6 +15,7 @@ export default defineConfig({
             shows: resolve("shows/index.html"),
             gallery: resolve("gallery/index.html"),
             book: resolve("book/index.html"),
+            admin: resolve("admin/index.html"),
           },
         },
       },

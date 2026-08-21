@@ -18,13 +18,35 @@ test("all primary pages have core metadata and a single h1", async () => {
   assert.equal(new Set(documents.map((html) => html.match(/<title>(.+)<\/title>/)?.[1])).size, pages.length);
 });
 
-test("show data is sorted and contains September and October 2026 dates", async () => {
-  const shows = JSON.parse(await readFile(new URL("public/data/shows.json", root), "utf8"));
-  const dates = shows.map((show) => show.date);
-  assert.deepEqual(dates, [...dates].sort());
-  assert.ok(dates.some((date) => date.startsWith("2026-09")));
-  assert.ok(dates.some((date) => date.startsWith("2026-10")));
-  assert.ok(shows.every((show) => ["public", "private"].includes(show.type)));
+test("dynamic content uses Worker APIs instead of legacy JSON files", async () => {
+  const [site, worker] = await Promise.all([
+    readFile(new URL("src/site.js", root), "utf8"),
+    readFile(new URL("worker/index.ts", root), "utf8"),
+  ]);
+
+  const endpoints = [
+    "/api/shows",
+    "/api/gallery",
+    "/api/videos",
+    "/api/music",
+  ];
+
+  for (const endpoint of endpoints) {
+    assert.ok(
+      site.includes(endpoint),
+      `site.js should load ${endpoint}`
+    );
+
+    assert.ok(
+      worker.includes(endpoint),
+      `worker should expose ${endpoint}`
+    );
+  }
+
+  assert.doesNotMatch(
+    site,
+    /\/data\/(?:shows|gallery|videos|music)\.json/
+  );
 });
 
 test("booking form and API expose the required integration points", async () => {

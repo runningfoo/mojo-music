@@ -7,6 +7,19 @@
     "binding": "ASSETS",
     "not_found_handling": "single-page-application"
   },
+  "d1_databases": [
+  {
+    "binding": "DB",
+    "database_name": "mojo-content",
+    "database_id": "fed1e163-2df2-4f46-aa42-123e92183958"
+  }
+],
+"r2_buckets": [
+  {
+    "binding": "MEDIA",
+    "bucket_name": "mojo-media"
+  }
+],
   "send_email": [
     {
       "name": "EMAIL",

@@ -35,7 +35,7 @@ const formatShow = (show) => {
 
 document.querySelectorAll("[data-shows]").forEach(async (container) => {
   try {
-    const shows = await loadJson("/data/shows.json");
+    const shows = await loadJson("/api/shows"); 
     const sorted = shows.sort((a, b) => a.date.localeCompare(b.date));
     const limit = Number(container.dataset.limit || sorted.length);
     container.innerHTML = sorted.slice(0, limit).map(formatShow).join("");
@@ -48,7 +48,7 @@ const renderTrack = (track, index) => `<article class="track-row"><button class=
 
 document.querySelectorAll("[data-tracks]").forEach(async (container) => {
   try {
-    const tracks = await loadJson("/data/music.json");
+    const tracks = await loadJson("/api/music");
     const limit = Number(container.dataset.limit || tracks.length);
     container.innerHTML = tracks.slice(0, limit).map(renderTrack).join("");
     container.querySelectorAll(".track-play").forEach((button) => button.addEventListener("click", () => {
@@ -93,7 +93,7 @@ const renderVideos = (filter = "all") => {
 };
 
 if (videosContainer) {
-  loadJson("/data/videos.json").then((videos) => { videoData = videos; renderVideos(); }).catch(() => { videosContainer.innerHTML = '<p class="data-error">Videos are being updated.</p>'; });
+  loadJson("/api/videos").then((videos) => { videoData = videos; renderVideos(); }).catch(() => { videosContainer.innerHTML = '<p class="data-error">Videos are being updated.</p>'; });
   document.querySelectorAll("[data-video-filters] button").forEach((button) => button.addEventListener("click", () => {
     document.querySelectorAll("[data-video-filters] button").forEach((item) => item.classList.toggle("active", item === button));
     renderVideos(button.dataset.filter);
@@ -108,11 +108,28 @@ let activeImage = 0;
 
 const updateLightbox = () => {
   const image = visibleGallery[activeImage];
+
   if (!image || !lightbox) return;
-  lightbox.querySelector("[data-lightbox-image]").src = image.src;
-  lightbox.querySelector("[data-lightbox-image]").alt = image.alt;
-  lightbox.querySelector("[data-lightbox-source]").srcset = image.avif;
-  lightbox.querySelector("[data-lightbox-caption]").textContent = `${activeImage + 1} / ${visibleGallery.length} — ${image.alt}`;
+
+  const lightboxImage =
+    lightbox.querySelector("[data-lightbox-image]");
+
+  const lightboxSource =
+    lightbox.querySelector("[data-lightbox-source]");
+
+  lightboxImage.src = image.src;
+  lightboxImage.alt = image.alt;
+
+  if (image.avif) {
+    lightboxSource.srcset = image.avif;
+  } else {
+    lightboxSource.removeAttribute("srcset");
+  }
+
+  lightbox
+    .querySelector("[data-lightbox-caption]")
+    .textContent =
+      `${activeImage + 1} / ${visibleGallery.length} — ${image.alt}`;
 };
 
 const openLightbox = (index) => {
@@ -127,13 +144,56 @@ const moveLightbox = (direction) => {
 };
 
 const renderGallery = (filter = "all") => {
-  visibleGallery = galleryData.filter((image) => filter === "all" || image.category === filter);
-  galleryContainer.innerHTML = visibleGallery.map((image, index) => `<button class="gallery-item gallery-${htmlEscape(image.size)}" type="button" data-gallery-index="${index}" aria-label="Open image: ${htmlEscape(image.alt)}"><picture><source srcset="${htmlEscape(image.avif)}" type="image/avif"><img src="${htmlEscape(image.src)}" alt="${htmlEscape(image.alt)}" loading="lazy"></picture><span>View image ↗</span></button>`).join("");
-  galleryContainer.querySelectorAll("[data-gallery-index]").forEach((button) => button.addEventListener("click", () => openLightbox(Number(button.dataset.galleryIndex))));
+  visibleGallery = galleryData.filter(
+    (image) =>
+      filter === "all" ||
+      image.category === filter
+  );
+
+  galleryContainer.innerHTML = visibleGallery
+    .map((image, index) => {
+      const avifSource = image.avif
+        ? `<source
+             srcset="${htmlEscape(image.avif)}"
+             type="image/avif"
+           >`
+        : "";
+
+      return `
+        <button
+          class="gallery-item gallery-${htmlEscape(image.size)}"
+          type="button"
+          data-gallery-index="${index}"
+          aria-label="Open image: ${htmlEscape(image.alt)}"
+        >
+          <picture>
+            ${avifSource}
+            <img
+              src="${htmlEscape(image.src)}"
+              alt="${htmlEscape(image.alt)}"
+              loading="lazy"
+            >
+          </picture>
+
+          <span>View image ↗</span>
+        </button>
+      `;
+    })
+    .join("");
+
+  galleryContainer
+    .querySelectorAll("[data-gallery-index]")
+    .forEach((button) =>
+      button.addEventListener("click", () =>
+        openLightbox(
+          Number(button.dataset.galleryIndex)
+        )
+      )
+    );
 };
 
 if (galleryContainer && lightbox) {
-  loadJson("/data/gallery.json").then((images) => { galleryData = images; renderGallery(); }).catch(() => { galleryContainer.innerHTML = '<p class="data-error">The gallery is being updated.</p>'; });
+  loadJson("/api/gallery").then((images) => { galleryData = images; renderGallery(); }).catch(() => { galleryContainer.innerHTML = '<p class="data-error">The gallery is being updated.</p>'; });
   document.querySelectorAll("[data-gallery-filters] button").forEach((button) => button.addEventListener("click", () => {
     document.querySelectorAll("[data-gallery-filters] button").forEach((item) => item.classList.toggle("active", item === button));
     renderGallery(button.dataset.filter);
